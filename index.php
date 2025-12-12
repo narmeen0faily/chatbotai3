@@ -1,11 +1,9 @@
 <?php
-// ضع مفتاح OpenRouter هنا
 $OPENROUTER_API_KEY = "<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>";
 $MODEL = "openai/gpt-4o";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Content-Type: application/json");
-    header("Access-Control-Allow-Origin: *");
 
     $input = json_decode(file_get_contents('php://input'), true);
 
@@ -54,16 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
 <meta charset="UTF-8">
 <title>OpenRouter Chat</title>
-<style>
-body { font-family: Arial; margin: 20px; }
-textarea { width: 100%; }
-button { margin-top: 10px; padding: 10px 20px; }
-pre { background: #f0f0f0; padding: 10px; white-space: pre-wrap; }
-</style>
 </head>
 <body>
 <h2>Chat مع OpenRouter</h2>
-<textarea id="input" rows="4" placeholder="اكتب رسالتك هنا"></textarea><br>
+<textarea id="input" rows="4"></textarea><br>
 <button onclick="sendMessage()">إرسال</button>
 <pre id="output"></pre>
 
@@ -71,25 +63,13 @@ pre { background: #f0f0f0; padding: 10px; white-space: pre-wrap; }
 async function sendMessage() {
     const messages = [{ role: "user", content: document.getElementById("input").value }];
     document.getElementById("output").textContent = "جاري الإرسال...";
-    
-    try {
-        const res = await fetch('', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages })
-        });
-        
-        const data = await res.json();
-        if(data.error) {
-            document.getElementById("output").textContent = "خطأ: " + JSON.stringify(data, null, 2);
-        } else {
-            const reply = data?.choices?.[0]?.message?.content || JSON.stringify(data, null, 2);
-            document.getElementById("output").textContent = reply;
-        }
-    } catch (err) {
-        document.getElementById("output").textContent = "حدث خطأ في الاتصال: " + err;
-    }
-}
-</script>
-</body>
-</html>
+
+    const res = await fetch('', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages })
+    });
+
+    const data = await res.json();
+    if(data.error) {
+        document.getElementById("output").textContent = "خط
