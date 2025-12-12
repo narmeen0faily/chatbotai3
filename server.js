@@ -13,8 +13,7 @@ const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 // الصفحة الرئيسية
 app.get("/", (req, res) => {
-  res.send(`
-<!DOCTYPE html>
+  res.send(`<!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
@@ -61,9 +60,9 @@ async function sendMessage() {
 </script>
 
 </body>
-</html>
-  `);
+</html>`);
 });
+
 
 // API الأساسي
 app.post("/api/chat", async (req, res) => {
