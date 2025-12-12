@@ -27,10 +27,11 @@ async function sendMessage() {
 
     try {
 const res = await fetch('https://chatbotai3-1.onrender.com/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages })
-        });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages })
+});
+
 
         const data = await res.json();
         if (data.error) {
