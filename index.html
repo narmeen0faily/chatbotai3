@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>OpenRouter Chat</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px; }
+textarea { width: 100%; padding: 10px; font-size: 16px; }
+button { margin-top: 10px; padding: 10px 20px; font-size: 16px; }
+pre { background: #f0f0f0; padding: 10px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+
+<h2>Chat مع OpenRouter</h2>
+<textarea id="input" rows="4" placeholder="اكتب رسالتك هنا"></textarea><br>
+<button onclick="sendMessage()">إرسال</button>
+<pre id="output"></pre>
+
+<script>
+async function sendMessage() {
+    const inputText = document.getElementById("input").value;
+    if (!inputText.trim()) return;
+
+    const messages = [{ role: "user", content: inputText }];
+    document.getElementById("output").textContent = "جاري الإرسال...";
+
+    try {
+        const res = await fetch('https://your-project-name.onrender.com/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages })
+        });
+
+        const data = await res.json();
+        if (data.error) {
+            document.getElementById("output").textContent = "خطأ: " + JSON.stringify(data, null, 2);
+        } else {
+            document.getElementById("output").textContent = data.reply || JSON.stringify(data, null, 2);
+        }
+    } catch (err) {
+        document.getElementById("output").textContent = "حدث خطأ في الاتصال: " + err;
+    }
+}
+</script>
+
+</body>
+</html>
